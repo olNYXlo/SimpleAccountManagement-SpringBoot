@@ -1,24 +1,38 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name ="User")
+@Document(collection="UserAccounts")
 public class User {
 	
 	@Id
-	@Column(name = "username")
+	private String id;
 	private String username;
-	
-	@Column(name = "password")
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String mobileNo;
 	private String password;
 
 	
 	
 	
+	
+	public String getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+
+
 	public String getUsername() {
 		return username;
 	}
@@ -43,5 +57,77 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+
+
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+
+
+
+	public String getLastname() {
+		return lastname;
+	}
+
+
+
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+
+
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "User{" + "id= '" + id + '\'' +
+				", username= '" + username +'\'' +
+				", firstname= '" + firstname +'\'' +
+				", lastname= '" + lastname + '\'' +
+				", email= '" + email + '\'' +
+				", mobileNo= '" + mobileNo + '\'' +
+				", password= '" + password + '}';
+	}
+	
+	
 
 }

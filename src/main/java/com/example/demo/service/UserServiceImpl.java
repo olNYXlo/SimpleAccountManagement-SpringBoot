@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean login(String username, String password) {
 		boolean status = false;
-		User retrievedUser = userDao.findById(username).orElse(null);
+		User retrievedUser = userDao.findUserByUsername(username);
 		if (retrievedUser == null) {
 			System.out.println("Username does not exist");
 		}
@@ -32,13 +34,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean registration(String username, String password) {
+	public boolean registration(User newUser) {
 		boolean status = false;
-		User newUser = new User();
-		newUser.setPassword(password);
-		newUser.setUsername(username);
 		
-		User retrievedUser = userDao.findById(username).orElse(null);
+		User retrievedUser = userDao.findUserByUsername(newUser.getUsername());
 		if (retrievedUser == null) {
 			userDao.save(newUser);
 			status = true;
@@ -50,4 +49,47 @@ public class UserServiceImpl implements UserService {
 		
 		return status;
 	}
+
+	@Override
+	public ArrayList<User> getAllUserAccounts() {
+		
+		return (ArrayList<User>) userDao.findAll();
+	}
+
+	@Override
+	public boolean deleteUseraccount(String username) {
+		boolean status = false;
+		User retrievedUser = userDao.findUserByUsername(username);
+		if (retrievedUser != null) {
+			userDao.delete(retrievedUser);
+			status = true;
+			System.out.println("User deleted");
+		}
+		else {
+			System.out.println("Username does not exists, please choose a different username");
+		}
+		
+		return status;
+	}
+
+	@Override
+	public boolean resetPassword(String username) {
+		boolean status = false;
+		User retrievedUser = userDao.findUserByUsername(username);
+		if (retrievedUser != null) {
+			retrievedUser.setPassword("Password123!");
+			userDao.save(retrievedUser);
+			status = true;
+			System.out.println("User Account Password Reset To : Password123!");
+		}
+		else {
+			System.out.println("Username does not exists, please choose a different username");
+		}
+		
+		return status;
+	}
+	
+	
+	
+	
 }
